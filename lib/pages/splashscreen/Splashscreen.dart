@@ -48,7 +48,7 @@ class _SplashscreenV1State extends State<SplashscreenV1> {
   }
 
   Future<Timer> timeout() async {
-    return new Timer(Duration(milliseconds: 2000), go_to_main_page);
+    return new Timer(Duration(milliseconds: 2000), goToAfterSplashScreen);
   }
 
   onDoneLoading() async {
