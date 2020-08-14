@@ -29,8 +29,7 @@ class _ListQuizState extends State<ListQuiz> {
   bool isReady = false;
 
   getData() async {
-    response =
-    await dio.get("https://meleqapps.000webhostapp.com/backend/api/kuis");
+    response = await dio.get("http://meleqapps.herokuapp.com/backend/api/kuis");
     if (response != null) {
       setState(() {
         isReady = true;
@@ -110,30 +109,31 @@ class _ListQuizState extends State<ListQuiz> {
         },
         body: !isReady
             ? Center(
-          child: Text('Mohon tunggu sebentar',
-              style: TextStyle(
-                  fontFamily: FontSetting.fontMain,
-                  color: Colors.black54,
-                  fontSize: 20)),
-        )
-            : ListView.builder(
-            physics: BouncingScrollPhysics(),
-            padding: EdgeInsets.zero,
-            itemCount: response.data.length,
-            itemBuilder: (ctx, index) {
-              return ListTile(
-                onTap: () {
-                  showQr(
-                      url: response.data[index]['url_file'],
-                      name: response.data[index]['judul']
-                  );
-                },
-                contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
-                title: Text(response.data[index]['judul'],
+                child: Text('Mohon tunggu sebentar',
                     style: TextStyle(
                         fontFamily: FontSetting.fontMain,
-                        color: Colors.grey[500],
-                        fontSize: 15)),
+                        color: Colors.black54,
+                        fontSize: 20)),
+              )
+            : ListView.builder(
+                physics: BouncingScrollPhysics(),
+                padding: EdgeInsets.zero,
+                itemCount: response.data.length,
+                itemBuilder: (ctx, index) {
+                  return ListTile(
+                    onTap: () {
+                      showQr(
+                          // url: response.data[index]['url_file'],
+                          url:
+                              "https://docs.google.com/forms/d/e/1FAIpQLSdJipkv_mlTihzOka3vB_ggKW0_6TyFVq01XpTD1RCLcm7maQ/viewform",
+                          name: response.data[index]['judul']);
+                    },
+                    contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
+                    title: Text(response.data[index]['judul'],
+                        style: TextStyle(
+                            fontFamily: FontSetting.fontMain,
+                            color: Colors.grey[500],
+                            fontSize: 15)),
 //                    subtitle: Text(response.data[index]['url_qrcode'],
 //                        maxLines: 1,
 //                        overflow: TextOverflow.ellipsis,
@@ -141,27 +141,31 @@ class _ListQuizState extends State<ListQuiz> {
 //                            fontFamily: FontSetting.fontMain,
 //                            color: ColorApp.main_color_app,
 //                            fontSize: 12)),
-                trailing: Icon(
-                  Icons.share,
-                  color: Colors.grey[500],
-                  size: 20,
-                ),
-              );
-            }),
+                    trailing: Icon(
+                      Icons.share,
+                      color: Colors.grey[500],
+                      size: 20,
+                    ),
+                  );
+                }),
       ),
     );
   }
+
   Future<void> _captureAndSharePng(title) async {
     try {
-      RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
-      await Share.file('Meleq App', 'esys.png', pngBytes, 'image/png', text: title);
-    } catch(e) {
+      await Share.file('Meleq App', 'esys.png', pngBytes, 'image/png',
+          text: title);
+    } catch (e) {
       print(e.toString());
     }
   }
+
   void showQr({String url, String name}) {
     showModalBottomSheet(
         context: context,
@@ -185,8 +189,7 @@ class _ListQuizState extends State<ListQuiz> {
                   height: MediaQuery.of(context).size.width * 0.7,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(7)
-                  ),
+                      borderRadius: BorderRadius.circular(7)),
                   child: RepaintBoundary(
                     key: globalKey,
                     child: QrImage(
@@ -196,7 +199,8 @@ class _ListQuizState extends State<ListQuiz> {
                       size: 150.0,
                     ),
                   ),
-                ),),
+                ),
+              ),
               Container(
                   margin: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.01,
@@ -206,12 +210,11 @@ class _ListQuizState extends State<ListQuiz> {
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: FlatButton.icon(
                       color: Colors.white,
-                      onPressed: (){
+                      onPressed: () {
                         _captureAndSharePng(name);
                       },
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
-                      ),
+                          borderRadius: BorderRadius.circular(6)),
                       label: Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: Text(
@@ -220,11 +223,14 @@ class _ListQuizState extends State<ListQuiz> {
                               fontWeight: FontWeight.w700,
                               fontFamily: FontSetting.fontMain,
                               fontSize: 18,
-                              color: Colors.grey
-                          ),
+                              color: Colors.grey),
                         ),
                       ),
-                      icon: Icon(Icons.share, color: ColorApp.main_color_app, size: 20,),
+                      icon: Icon(
+                        Icons.share,
+                        color: ColorApp.main_color_app,
+                        size: 20,
+                      ),
                     ),
                   )),
               Container(
@@ -236,13 +242,12 @@ class _ListQuizState extends State<ListQuiz> {
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: FlatButton.icon(
                       color: Colors.white,
-                      onPressed: (){
-                        RouteShortcut().Push(context, DetailQuiz(url: url));
-//                      _launchURL("https://docs.google.com/viewer?url=${url}");
+                      onPressed: () {
+//                        RouteShortcut().Push(context, DetailQuiz(url: url));
+                      _launchURL(url);
                       },
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
-                      ),
+                          borderRadius: BorderRadius.circular(6)),
                       label: Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: Text(
@@ -251,11 +256,14 @@ class _ListQuizState extends State<ListQuiz> {
                               fontWeight: FontWeight.w700,
                               fontFamily: FontSetting.fontMain,
                               fontSize: 18,
-                              color: Colors.grey
-                          ),
+                              color: Colors.grey),
                         ),
                       ),
-                      icon: Icon(Icons.visibility, color: Colors.blue, size: 20,),
+                      icon: Icon(
+                        Icons.visibility,
+                        color: Colors.blue,
+                        size: 20,
+                      ),
                     ),
                   ))
             ],

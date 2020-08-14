@@ -19,8 +19,8 @@ class _GalleryState extends State<Gallery> {
   bool isReady = false;
 
   getData() async {
-    response = await dio
-        .get("https://meleqapps.000webhostapp.com/backend/api/gallery");
+    response =
+        await dio.get("http://meleqapps.herokuapp.com/backend/api/gallery");
     if (response != null) {
       setState(() {
         isReady = true;
@@ -126,15 +126,15 @@ class _GalleryState extends State<Gallery> {
                     itemBuilder: (ctx, index) {
                       return Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 0.0, top: 20, bottom: 10.0),
+                        margin:
+                            EdgeInsets.only(right: 0.0, top: 20, bottom: 10.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             GestureDetector(
                               child: Container(
                                 child: CachedNetworkImage(
-                                  imageUrl:
-                                      response.data[index]['url_file'],
+                                  imageUrl: response.data[index]['url_file'],
                                   placeholder: (context, url) => Container(
                                     child: Loading(
                                       indicator: BallScaleIndicator(),
@@ -154,7 +154,8 @@ class _GalleryState extends State<Gallery> {
                                     width: MediaQuery.of(context).size.width *
                                         0.85,
                                     decoration: BoxDecoration(
-                                      border: Border.all(width: 1, color: Colors.grey[200]),
+                                      border: Border.all(
+                                          width: 1, color: Colors.grey[200]),
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
                                         image: imageProvider,
@@ -214,7 +215,8 @@ class _GalleryState extends State<Gallery> {
                                     maxLines: 1,
                                     overflow: TextOverflow.ellipsis,
                                   ),
-                                  margin: EdgeInsets.only(right: 20.0, left: 5, top: 10.0),
+                                  margin: EdgeInsets.only(
+                                      right: 20.0, left: 5, top: 10.0),
                                 )
                               ],
                             )

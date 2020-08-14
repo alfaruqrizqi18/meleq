@@ -14,13 +14,6 @@ void main() async {
       systemNavigationBarDividerColor: Colors.white));
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
-//    runApp(FeatureDiscovery(
-//      child: MaterialApp(
-//          theme: ThemeFisherman().light(),
-//          debugShowCheckedModeBanner: false,
-//          home: SplashscreenV1()),
-////          home: MainPage()),
-//    ));
     runApp(MaterialApp(
         theme: ThemeData(
           brightness: Brightness.light,

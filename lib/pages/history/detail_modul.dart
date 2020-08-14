@@ -8,7 +8,6 @@ class DetailModul extends StatefulWidget {
 
   const DetailModul({Key key, this.url}) : super(key: key);
 
-
   @override
   _DetailModulState createState() => _DetailModulState();
 }
@@ -17,12 +16,12 @@ class _DetailModulState extends State<DetailModul> {
   PDFDocument doc;
   bool is_loading;
 
-
   getPDF() async {
     setState(() {
       is_loading = true;
     });
-    doc = await PDFDocument.fromURL("https://meleqapps.000webhostapp.com/assets/uploads/"+widget.url);
+    doc = await PDFDocument.fromURL(
+        "http://meleqapps.herokuapp.com/assets/uploads/" + widget.url);
     setState(() {
       is_loading = false;
     });
@@ -71,7 +70,7 @@ class _DetailModulState extends State<DetailModul> {
                     fontSize: 15),
                 children: <TextSpan>[
                   TextSpan(
-                      text: ' Materi}',
+                      text: ' Materi',
                       style: TextStyle(
                           fontFamily: FontSetting.fontMain,
                           color: ColorApp.main_color_app,

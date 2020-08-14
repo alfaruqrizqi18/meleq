@@ -28,7 +28,7 @@ class _ListModulState extends State<ListModul> {
 
   getData() async {
     response =
-        await dio.get("https://meleqapps.000webhostapp.com/backend/api/modul");
+        await dio.get("http://meleqapps.herokuapp.com/backend/api/modul");
     if (response != null) {
       setState(() {
         isReady = true;
@@ -114,9 +114,8 @@ class _ListModulState extends State<ListModul> {
                   return ListTile(
                     onTap: () {
                       showQr(
-                        url: response.data[index]['url_file'],
-                        name: response.data[index]['judul']
-                      );
+                          url: response.data[index]['url_file'],
+                          name: response.data[index]['judul']);
                     },
                     contentPadding: EdgeInsets.only(left: 30.0, right: 30.0),
                     title: Text(response.data[index]['judul'],
@@ -141,17 +140,21 @@ class _ListModulState extends State<ListModul> {
       ),
     );
   }
+
   Future<void> _captureAndSharePng(title) async {
     try {
-      RenderRepaintBoundary boundary = globalKey.currentContext.findRenderObject();
+      RenderRepaintBoundary boundary =
+          globalKey.currentContext.findRenderObject();
       var image = await boundary.toImage();
       ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
       Uint8List pngBytes = byteData.buffer.asUint8List();
-      await Share.file('Meleq App', 'esys.png', pngBytes, 'image/png', text: title);
-    } catch(e) {
+      await Share.file('Meleq App', 'esys.png', pngBytes, 'image/png',
+          text: title);
+    } catch (e) {
       print(e.toString());
     }
   }
+
   void showQr({String url, String name}) {
     showModalBottomSheet(
         context: context,
@@ -162,21 +165,20 @@ class _ListModulState extends State<ListModul> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Container(
-                  margin: EdgeInsets.only(
-                      bottom: MediaQuery.of(context).size.height * 0.04,
-                      left: MediaQuery.of(context).size.width * 0.05,
-                      right: MediaQuery.of(context).size.width * 0.05),
-                  decoration: new BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: new BorderRadius.circular(8)),
+                margin: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).size.height * 0.04,
+                    left: MediaQuery.of(context).size.width * 0.05,
+                    right: MediaQuery.of(context).size.width * 0.05),
+                decoration: new BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: new BorderRadius.circular(8)),
                 child: Container(
                   padding: EdgeInsets.all(30),
                   width: MediaQuery.of(context).size.width * 0.7,
                   height: MediaQuery.of(context).size.width * 0.7,
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(7)
-                  ),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(7)),
                   child: RepaintBoundary(
                     key: globalKey,
                     child: QrImage(
@@ -186,37 +188,40 @@ class _ListModulState extends State<ListModul> {
                       size: 150.0,
                     ),
                   ),
-                ),),
+                ),
+              ),
               Container(
-                margin: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).size.height * 0.01,
-                    left: MediaQuery.of(context).size.width * 0.05,
-                    right: MediaQuery.of(context).size.width * 0.05),
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.7,
-                  child: FlatButton.icon(
-                    color: Colors.white,
-                    onPressed: (){
-                      _captureAndSharePng(name);
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6)
-                    ),
-                    label: Padding(
-                      padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                      child: Text(
-                        "Share",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontFamily: FontSetting.fontMain,
-                          fontSize: 18,
-                          color: Colors.grey
+                  margin: EdgeInsets.only(
+                      bottom: MediaQuery.of(context).size.height * 0.01,
+                      left: MediaQuery.of(context).size.width * 0.05,
+                      right: MediaQuery.of(context).size.width * 0.05),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: FlatButton.icon(
+                      color: Colors.white,
+                      onPressed: () {
+                        _captureAndSharePng(name);
+                      },
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(6)),
+                      label: Padding(
+                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        child: Text(
+                          "Share",
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontFamily: FontSetting.fontMain,
+                              fontSize: 18,
+                              color: Colors.grey),
                         ),
                       ),
+                      icon: Icon(
+                        Icons.share,
+                        color: ColorApp.main_color_app,
+                        size: 20,
+                      ),
                     ),
-                    icon: Icon(Icons.share, color: ColorApp.main_color_app, size: 20,),
-                  ),
-                )),
+                  )),
               Container(
                   margin: EdgeInsets.only(
                       bottom: MediaQuery.of(context).size.height * 0.04,
@@ -226,12 +231,15 @@ class _ListModulState extends State<ListModul> {
                     width: MediaQuery.of(context).size.width * 0.7,
                     child: FlatButton.icon(
                       color: Colors.white,
-                      onPressed: (){
-                        RouteShortcut().Push(context, DetailModul(url: url, ));
+                      onPressed: () {
+                        RouteShortcut().Push(
+                            context,
+                            DetailModul(
+                              url: url,
+                            ));
                       },
                       shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(6)
-                      ),
+                          borderRadius: BorderRadius.circular(6)),
                       label: Padding(
                         padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
                         child: Text(
@@ -240,11 +248,14 @@ class _ListModulState extends State<ListModul> {
                               fontWeight: FontWeight.w700,
                               fontFamily: FontSetting.fontMain,
                               fontSize: 18,
-                              color: Colors.grey
-                          ),
+                              color: Colors.grey),
                         ),
                       ),
-                      icon: Icon(Icons.visibility, color: Colors.blue, size: 20,),
+                      icon: Icon(
+                        Icons.visibility,
+                        color: Colors.blue,
+                        size: 20,
+                      ),
                     ),
                   ))
             ],

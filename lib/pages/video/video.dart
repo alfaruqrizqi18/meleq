@@ -20,7 +20,7 @@ class _VideoState extends State<Video> {
 
   getData() async {
     response =
-        await dio.get("https://meleqapps.000webhostapp.com/backend/api/video");
+        await dio.get("http://meleqapps.herokuapp.com/backend/api/video");
     if (response != null) {
       setState(() {
         isReady = true;
@@ -29,7 +29,7 @@ class _VideoState extends State<Video> {
     print(response.data);
   }
 
-  playVideo(){
+  playVideo() {
     setState(() {
       _controller = YoutubePlayerController(
         initialVideoId: YoutubePlayer.convertUrlToId(urlToPlay),
@@ -40,7 +40,6 @@ class _VideoState extends State<Video> {
       );
     });
   }
-
 
   @override
   void initState() {
@@ -141,6 +140,7 @@ class _VideoState extends State<Video> {
       ),
     );
   }
+
   void showQr({String link}) {
     showModalBottomSheet(
         context: context,
@@ -163,13 +163,13 @@ class _VideoState extends State<Video> {
                   width: MediaQuery.of(context).size.width * 1,
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(7)
-                  ),
+                      borderRadius: BorderRadius.circular(7)),
                   child: YoutubePlayer(
                     controller: _controller,
                     showVideoProgressIndicator: true,
                   ),
-                ),),
+                ),
+              ),
             ],
           );
         });
